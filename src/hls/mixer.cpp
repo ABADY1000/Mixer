@@ -1,6 +1,7 @@
 #include "ap_axi_sdata.h"
 #include "hls_stream.h"
 #include "mixer.h"
+#include "colors.h"
 
 
 
@@ -42,7 +43,7 @@ void Mixer(
 		 * */
 		rgb = new RGB(main_p.data);
 		rgba = new RGBA(overlay_p.data);
-		output_p.data = rgb
+		output_p.data = rgba->mix(*rgb);
 
 		column += 1;
 		if(main_p.last){

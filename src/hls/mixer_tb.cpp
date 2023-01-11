@@ -5,21 +5,6 @@
 #include "mixer.h"
 #include <stdlib.h>
 
-
-//int main(int argc, char** argv){
-//
-//	cv::Mat array;
-//	array = cv::imread("./bird.png", cv::IMREAD_COLOR);
-//
-//	cv::imshow("Window", array);
-//	cv::waitKey(100);
-//	cv::destroyAllWindows();
-//
-//
-//	std::cout << "Test Bench Completed Successfully\n";
-//	return 0;
-//}
-
 int main(){
 
 	rgb_pixel_t *one;

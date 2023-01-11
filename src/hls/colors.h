@@ -2,6 +2,8 @@
 #ifndef COLORS_H_
 #define COLORS_H_
 
+#include "ap_int.h"
+
 class RGB{
 
 	RGB(ap_uint<24> rgb){

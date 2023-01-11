@@ -2,6 +2,9 @@
 #ifndef MIXER_H_
 #define MIXER_H_
 
+#include "ap_axi_sdata.h"
+#include "hls_stream.h"
+
 typedef ap_axiu<24,1,1,1> rgb_pixel_t;
 typedef ap_axiu<32,1,1,1> rgba_pixel_t;
 typedef hls::stream<rgb_pixel_t> rgb_video_t;
