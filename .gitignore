@@ -3,3 +3,6 @@ Mixer_HLS
 
 **/*.jou
 
+**/*.out
+**/*.log
+
