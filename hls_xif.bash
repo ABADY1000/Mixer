@@ -1,0 +1,1 @@
+rm /usr/include/{gnu,asm,bits,sys/{cdefs.h,select.h,sysmacros.h,types.h,ucontext.h}}
