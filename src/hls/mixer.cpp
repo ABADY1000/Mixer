@@ -21,15 +21,14 @@ void Mixer(
 	rgba_pixel_t overlay_p;
 	rgb_pixel_t output_p;
 
-	RGB* rgb;
-	RGBA* rgba;
+//	RGB* rgb;
+//	RGBA* rgba;
 
-	static ap_uint<10> row = 0;
-	static ap_uint<10> column = 0;
+	static ap_uint<11> row = 0;
+	static ap_uint<11> column = 0;
 
 	MAIN_LOOP:
 	while(1){
-#pragma HLS PIPELINE II=1 enable_flush
 
 		main.read(main_p);
 		overlay.read(overlay_p);
@@ -41,9 +40,12 @@ void Mixer(
 		/*
 		 * Alpha Mixing Logic
 		 * */
-		rgb = new RGB(main_p.data);
-		rgba = new RGBA(overlay_p.data);
-		output_p.data = rgba->mix(*rgb);
+//		rgb = new RGB(main_p.data);
+//		rgba = new RGBA(overlay_p.data);
+		RGB rgb(main_p.data);
+		RGBA rgba(overlay_p.data);
+//		output_p.data = rgba->mix(*rgb)->get_rgb();
+		output_p.data = rgba.mix(rgb).get_rgb();
 
 		column += 1;
 		if(main_p.last){
@@ -53,7 +55,7 @@ void Mixer(
 
 		output.write(output_p);
 
-		if(row == 5){
+		if(row == 600){
 			row = 0;
 			column = 0;
 			break;

@@ -11,8 +11,11 @@ typedef hls::stream<rgb_pixel_t> rgb_video_t;
 typedef hls::stream<rgba_pixel_t> rgba_video_t;
 
 
-#define MAX_WIDTH 640
-#define MAX_HEIGT 480
+//#define MAX_WIDTH 640
+//#define MAX_HEIGT 480
+
+#define MAX_WIDTH 800
+#define MAX_HEIGT 600
 
 
 void Mixer(rgb_video_t &main,rgba_video_t &overlay,rgb_video_t &output);

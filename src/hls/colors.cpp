@@ -42,10 +42,10 @@ ap_uint<32> RGBA::get_rgba(){
 }
 
 RGB RGBA::mix(RGB rgb){
-	RGB rgb_new = new RGB(
-					blind(rgb.get_red(), get_red(), get_alpha()),
-					blind(rgb.get_green(), get_green(), get_alpha()),
-					blind(rgb.get_blue(), get_blue(), get_alpha())
+	RGB rgb_new (
+					blind(get_red(), rgb.get_red(), get_alpha()),
+					blind(get_green(), rgb.get_green(), get_alpha()),
+					blind(get_blue(), rgb.get_blue(), get_alpha())
 				);
 	return rgb_new;
 }

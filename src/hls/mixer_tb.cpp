@@ -3,7 +3,9 @@
 #include "hls_stream.h"
 #include "ap_axi_sdata.h"
 #include "mixer.h"
+#include "colors.h"
 #include <stdlib.h>
+#include <math.h>
 
 int main(){
 
@@ -11,17 +13,20 @@ int main(){
 	rgba_pixel_t *two;
 	rgb_video_t idata1;
 	rgba_video_t idata2;
-	hls::stream<int> tdata1;
-	hls::stream<int> tdata2;
+	hls::stream<uint32_t> tdata1;
+	hls::stream<uint32_t> tdata2;
 	rgb_pixel_t out;
 	rgb_video_t odata;
 
+	RGB* rgb;
+	RGBA* rgba;
 	for(int i=0; i<5; i++){
 		for(int j=0; j<5; j++){
 			one = new rgb_pixel_t();
-			one->data = std::rand() % 256;
-			one->keep = 15;
-			one->strb = 15;
+			rgb = new RGB(255,255,255);
+			one->data =rgb->get_rgb();
+			one->keep = 7;
+			one->strb = 7;
 			one->user = (i == 0 && j == 0) ? 1 : 0;
 			one->last = j == 4 ? 1 : 0;
 
@@ -29,7 +34,8 @@ int main(){
 			tdata1.write(one->data);
 
 			two = new rgba_pixel_t();
-			two->data = std::rand() % 256;
+			rgba = new RGBA(128,128,128, (i+j)%2 ? 255 : 0);
+			two->data = rgba->get_rgba();
 			two->keep = 15;
 			two->strb = 15;
 			two->user = (i == 0 && j == 0) ? 1 : 0;
@@ -40,7 +46,7 @@ int main(){
 		}
 	}
 
-	if(idata1.empty()) std::cout << "Error in the empty function \n";
+//	if(idata1.empty()) std::cout << "Error in the empty function \n";
 
 	Mixer(idata1, idata2, odata);
 
@@ -48,12 +54,18 @@ int main(){
 		for(int j=0; j<5; j++){
 			out = odata.read();
 
-			int a = tdata1.read();
-			int b = tdata2.read();
-			int c = a ^ b;
-			if(out.data != c){
-				std::cout << "Test Failed !!!\n" << "Data1 = " << a << "\nData2 = " << b;
-				std::cout << "\nResult = " << c << "\nMixer Output = " << out.data << "\n";
+//			RGB a = RGB(tdata1.read());
+//			RGBA b = RGBA(tdata2.read());
+//			RGB c = b.mix(a);
+//			if(out.data != c.get_rgb()){
+			int odd = (i+j)%2;
+			rgb = new RGB(out.data);
+			int err = odd ? rgb->get_red()-255 : rgb->get_red()-128;
+			if(abs(err) > 1){
+//				std::cout << "Test Failed !!!\n" << "Data1 = " << a.get_rgb() << "\nData2 = " << b.get_rgba();
+//				std::cout << "\nResult = " << c.get_rgb() << "\nMixer Output = " << out.data << "\n";
+				std::cout << "Test Failed !!!\n" << "i = " << i << "\nj = " << j;
+				std::cout << "\nShould be = " << (odd ? 255 : 128) << "\nMixer Output = " << out.data << "\n";
 				return 1;
 			}
 		}
